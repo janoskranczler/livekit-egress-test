@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  livekit:
+    image: livekit/livekit-server:latest
+    command: --config ./livekit.yaml --node-ip 127.0.0.1
+    ports:
+      - "7880:7880"
+      - "7881:7881"
+      - "7882:7882/udp"
+    volumes:
+      - ./livekit.yaml:/livekit.yaml:ro
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    depends_on:
+      - redis
+    links:
+      - redis
+  egress:
+    image: livekit/egress
+    volumes:
+      - ./egress.yaml:/egress.yaml:ro
+    restart: unless-stopped
+    depends_on:
+      - livekit
+      - redis
+    links:
+      - livekit
+      - redis
+    environment:
+      - EGRESS_CONFIG_FILE=./egress.yaml
+  ingest:
+    build: .
+    ports:
+      - "8000:8000"
+  redis:
+    image: redis:6-alpine
