@@ -3,6 +3,7 @@
 ## Prerequisites
 
 * Docker
+* jq
 
 ## Run
 
