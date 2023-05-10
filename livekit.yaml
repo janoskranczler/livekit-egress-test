@@ -13,5 +13,3 @@ redis:
     username: ""
     password: ""
     db: 0
-egress:
-  use_psrpc: true
