@@ -18,7 +18,7 @@ services:
     links:
       - redis
   egress:
-    image: livekit/egress:v1.7.3
+    image: livekit/egress:v1.7.4
     volumes:
       - ./egress.yaml:/egress.yaml:ro
     restart: unless-stopped
